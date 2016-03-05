@@ -32,7 +32,7 @@ angular.module( 'moviematch.lobby', [] )
       }
     }
   })
-
+  
   Socket.on( 'newReadyUser', function( data ) {
     $scope.readyCount++
     console.log($scope.readyCount)

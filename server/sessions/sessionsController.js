@@ -1,5 +1,7 @@
 var helpers = require( '../config/helpers' );
 var Session = require( './sessions' ).Session;
+var NewMovie = require('./sessions').NewMovie;
+var SessionUser = require ('../sessions_users/sessions_users');
 
 module.exports = {
 
@@ -29,6 +31,17 @@ module.exports = {
       res.json( session );
     }, function( err ) {
       helpers.errorHandler( err, req, res, next );
+    });
+  },
+
+  deleteSession: function(sessionID) {
+
+    NewMovie.destroy({ where: {session_id: sessionID}})
+    .then(function() {
+      return SessionUser.destroy({where: {session_id: sessionID}});
+    })
+    .then(function(){
+      return Session.destroy({where: {id: sessionID}});
     });
   }
   
