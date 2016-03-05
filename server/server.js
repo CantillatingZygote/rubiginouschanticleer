@@ -49,12 +49,18 @@ io.on( 'connect' , function( socket ){
 
   // Listens for all voters to finish
   socket.on('selectedMovie', function(data) { 
-    console.log('RECIEVING EMIT <------------------------');   
     votesController.checkMatch(data.session_id, function(movie) {
       console.log('do i get here??!?!?!??', movie)
       socket.join(data.sessionName);
       io.emit('winner', movie);
     });
+  });
+
+  // Listens for individual votes to update in real-time
+  socket.on('rtVoteUpdate', function(data) {
+    console.log('real time voting say whaaat')
+    socket.join(data.sessionName);
+    io.to(data.sessionName).emit('updateMovieVote', data);
   })
 
   // This listener handles broadcasting a matched movie to connected clients.

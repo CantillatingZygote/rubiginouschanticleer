@@ -44,6 +44,13 @@ angular.module( 'moviematch.match', [] )
     if (vote !== 0) {
       MatchRequestFactory.updateVote(vote, $scope.currMovie.movie.id)
       .then(function() {
+        //real time update
+        Socket.emit('rtVoteUpdate', {
+          movie: $scope.currMovie.movie,
+          sessionName: $scope.session.sessionName,
+          vote: vote
+        });
+
         loadNextMovie();
       })
     } else {
@@ -98,6 +105,7 @@ angular.module( 'moviematch.match', [] )
   }
 
   var getMovies = function(session_id) {
+    console.log(session_id,'goes to getMovies')
     return $http({
       method: 'GET',
       url: '/api/movies/' + session_id

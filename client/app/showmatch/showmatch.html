@@ -4,7 +4,20 @@
 <div id="showmatch" class="container" ng-model="movieChosen">
 
   <div ng-if="!movieChosen"> 
-    LOADING
+
+    <img class="center" src="https://45.media.tumblr.com/c25e19cd821c2cfb6ee3ce4b5805a57e/tumblr_njhuwaqI9i1u9izmyo1_500.gif">
+  </br>
+    <span style="margin: 20px">VOTES</span><span>MOVIE TITLES</span>
+  </br>
+    <div ng-model="movies" ng-repeat="movie in movies">
+      <span class="col-md-4" style="display: inline-block; margin: 20px">
+        {{ movie.votes }}
+      </span>
+      <span class="col-md-8" style="display: inline-block">
+        {{ movie.title }} 
+      </span>
+    </div>
+
   </div>
 
 
