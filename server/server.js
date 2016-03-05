@@ -2,6 +2,7 @@ var express = require( 'express' );
 var db = require( './config/db' );
 var app = express();
 var votesController = require('./votes/votesController');
+var sessionsController = require('./sessions/sessionsController')
 
 //var Sequelize = require('sequelize');
 
@@ -50,6 +51,8 @@ io.on( 'connect' , function( socket ){
   // Listens for all voters to finish
   socket.on('selectedMovie', function(data) { 
     votesController.checkMatch(data.session_id, function(movie) {
+      sessionsController.deleteSession(data.session_id);
+      io.emit("sessionDone", data.sessionName);
       console.log('do i get here??!?!?!??', movie)
       socket.join(data.sessionName);
       io.emit('winner', movie);

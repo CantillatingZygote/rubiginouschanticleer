@@ -20,7 +20,11 @@ angular.module( 'moviematch.sessions', [] )
   Socket.on( 'newSession', function( data ) {
     $scope.sessions.push( data );
   });
-
+  
+  Socket.on('sessionDone', function(name) {
+    var index = _.indexOf($scope.sessions, name)
+    $scope.sessions.splice(index,1);
+  })
   // TODO: Create functions to make buttons work
   $scope.setSession = Session.setSession;
   $scope.createSession = function() {
